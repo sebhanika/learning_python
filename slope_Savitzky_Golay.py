@@ -13,7 +13,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter # used for double checking in task 2
 
-os.chdir(os.path.abspath(os.path.dirname(__file__)))
+os.chdir(os.path.abspath(os.path.dirname(__file__))) # for setting wd on local machine
 print(os.getcwd()) # checking if location is correct
 
 #%% Task 1 ######### 
@@ -28,7 +28,7 @@ def slope_calc(dem, res, dimension):
     dist_win = [[np.sqrt(2), 1, np.sqrt(2)], 
             [1, -1, 1], [np.sqrt(2),  1, np.sqrt(2)]] # Window with distances to the cells
 
-    dist_win = [[z * res for z in y] for y in dist_win] # multiplying by resolution
+    dist_win = [[z * res for z in y] for y in dist_win] # multiplying by DEM resolution
     
     for r in range(1,rows-1):
         for c in range(1,cols-1):
@@ -43,7 +43,7 @@ def slope_calc(dem, res, dimension):
     return(empty_dem)
    
 
-#%% Calculating slope of a Absiko DEM
+#%% Calculating slope of exercise DEM
 
 #reading in text file
 dem_abisko = np.loadtxt('dem_Abisko.txt', dtype = 'int', 
@@ -53,15 +53,7 @@ dem_abisko = np.loadtxt('dem_Abisko.txt', dtype = 'int',
 slope_abisko = slope_calc(dem = dem_abisko, res = 50,
                       dimension = np.shape(dem_abisko))
 
-#%%
-
-#Saving text file
-np.savetxt('slope_abisko.txt', 
-           slope_abisko,  fmt='%.4e',
-           delimiter=',',
-           newline='\n') 
-
-#%% Plotting 
+#%% Plotting Slope of DEM
 
 plt.imshow(slope_abisko, cmap=plt.cm.jet)
 plt.colorbar()
